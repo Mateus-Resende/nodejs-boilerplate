@@ -52,7 +52,7 @@ var Auth = function() {
     };
     
     this.signToken = function(payload) {
-        return jwt.sign(payload, config.secret, {issuer: config.issuer, expiresInMinutes: config.tokenExpiration});
+        return jwt.sign(payload, config.secret, {issuer: config.issuer});
     };
 };
 

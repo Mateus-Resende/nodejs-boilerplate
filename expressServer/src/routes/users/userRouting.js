@@ -12,9 +12,6 @@ router.route('/me')
     .get(auth.isAuthenticated, userController.getLoggedUser)
     .put(auth.isAuthenticated, userController.updateLoggedUser);
 
-router.route('/available')
-    .get(auth.isAuthenticated, userController.getAvailableFriends);
-
 router.route('/:userId')
     .get(auth.isAuthenticated, userController.getUser)
     .delete(auth.hasRole('admin'), userController.deleteUser);
