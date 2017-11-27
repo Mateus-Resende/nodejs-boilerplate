@@ -10,7 +10,10 @@ var UserSchema = new Schema({
         type: String,
         default: 'user'
     },
-    password: String,
+    password: {
+        type: String,
+        select: false
+    },
     provider: String,
     salt: String,
 });

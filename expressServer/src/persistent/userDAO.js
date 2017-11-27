@@ -1,7 +1,8 @@
 'use strict';
 var _ = require('lodash'),
     config = require('../config'),
-    User = require('./../schema/user.schema');
+    User = require('./../schema/user.schema'),
+    bcrypt = require('bcrypt-node');
 
 var UserDAO = function(){
     
@@ -47,13 +48,23 @@ var UserDAO = function(){
     
     this.getUserByEmailAndPassword = function(userData, successCB, failCB) {
         console.log('MongoDB - Get User by Email and Password - findOne() by email: ' + userData.username + ' and password: ' + userData.password);
-        User.findOne({ email: userData.username, password: userData.password}, _defaultQueryFunction(successCB, failCB));
+        User.findOne({ email: userData.username }, '+password', function(err, user) {
+            if (err) {
+                failCB();
+                return;
+            }
+            if (user && bcrypt.compareSync(userData.password, user.password)) {
+                return successCB(user);
+            } else {
+                return failCB();
+            }
+        });
     };
     
     this.changePassword = function(userData, successCB, failCB) {
         console.log('MongoDB - changePassword - findOneAndUpdate()');
         User.findOneAndUpdate({ '_id': userData._id, 'password': userData.oldPassword },
-            { $set: { password: userData.newPassword } },
+            { $set: { password: this.getEncryptedPassword(userData.newPassword) } },
             { 'new': true },
             _defaultQueryFunction(successCB, failCB));
     };
@@ -61,7 +72,7 @@ var UserDAO = function(){
     this.createUser = function(userData, successCB, failCB){
         var newUser = new User({ name: userData.name,
             email: userData.email,
-            password: userData.password});
+            password: this.getEncryptedPassword(userData.password)});
         
         newUser.provider = 'local';
         newUser.role = 'user';
@@ -88,6 +99,10 @@ var UserDAO = function(){
     this.deleteUser = function(userId, successCB, failCB) {
         console.log('MongoDB - User deleted - findOneAndRemove(' + userId + ')');
         User.findOneAndRemove(userId, _defaultQueryFunction(successCB, failCB));
+    };
+    
+    this.getEncryptedPassword = function(password) {
+        return bcrypt.hashSync(password);
     };
 };
 
