@@ -1,6 +1,6 @@
 module.exports = {
     host: 'localhost',
-    port: 3000,
+    port: 3001,
     secret: 'IamOnlyHumanAfterAll',
     issuer: 'Mateus',
     cookieName:'boilerplate',

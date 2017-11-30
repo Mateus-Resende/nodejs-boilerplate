@@ -22,7 +22,11 @@ var mongoose = require('mongoose');
 mongoose.connect(config.mongo.uri, config.mongo.options);
 
 console.log('Making public folder public...');
-app.use(express.static('../public'));
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+} else {
+    app.use(express.static('../public'));
+}
 
 // Adding body-parser as first middleware
 console.log('Adding Middlewares...');
@@ -54,4 +58,6 @@ module.exports = {
         return config;
     }
 };
+
+
 console.log('Server object exported.');
