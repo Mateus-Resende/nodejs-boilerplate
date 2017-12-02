@@ -3,11 +3,11 @@ module.exports = grunt => {
         copy: {
             uiLib: {
                 files: [
-                    {expand: true, flatten: true, src: ['node_modules/jquery/dist/*.min.*'], dest: 'expressServer/public/lib/js'},
-                    {expand: true, flatten: true, src: ['node_modules/jquery.cookie/jquery.cookie.js'], dest: 'expressServer/public/lib/js'},
-                    {expand: true, flatten: true, src: ['node_modules/bootstrap/dist/js/bootstrap.min.js'], dest: 'expressServer/public/lib/js'},
-                    {expand: true, flatten: true, src: ['node_modules/bootstrap/dist/fonts/*'], dest: 'expressServer/public/lib/fonts/'},
-                    {expand: true, flatten: true, src: ['node_modules/bootstrap/dist/css/*.min.css'], dest: 'expressServer/public/lib/css/'}
+                    {expand: true, flatten: true, src: ['node_modules/jquery/dist/*.min.*'], dest: 'server/public/lib/js'},
+                    {expand: true, flatten: true, src: ['node_modules/jquery.cookie/jquery.cookie.js'], dest: 'server/public/lib/js'},
+                    {expand: true, flatten: true, src: ['node_modules/bootstrap/dist/js/bootstrap.min.js'], dest: 'server/public/lib/js'},
+                    {expand: true, flatten: true, src: ['node_modules/bootstrap/dist/fonts/*'], dest: 'server/public/lib/fonts/'},
+                    {expand: true, flatten: true, src: ['node_modules/bootstrap/dist/css/*.min.css'], dest: 'server/public/lib/css/'}
                 ]
             }
         },
@@ -15,8 +15,8 @@ module.exports = grunt => {
             express: {
                 script: 'index.js',
                 options: {
-                    watch: ['expressServer/'],
-                    cwd: 'expressServer/src'
+                    watch: ['server/'],
+                    cwd: 'server/src'
                 }
             }
         },
@@ -26,7 +26,7 @@ module.exports = grunt => {
                     reporter: 'spec',
                     require: 'blanketWrapper'
                 },
-                src: ['expressServer/tests/*.js']
+                src: ['server/tests/*.js']
             },
             coverage: {
                 options: {
@@ -34,7 +34,7 @@ module.exports = grunt => {
                     quiet: true,
                     captureFile: 'coverage.html'
                 },
-                src: ['expressServer/tests/*.js']
+                src: ['server/tests/*.js']
             }
         }
     });
@@ -44,5 +44,5 @@ module.exports = grunt => {
     grunt.loadNpmTasks('grunt-mocha-test');
     
     grunt.registerTask('serve', ['copy', 'nodemon:express']);
-    grunt.registerTask('testExpressServer', ['mochaTest']);
+    grunt.registerTask('testServer', ['mochaTest']);
 };

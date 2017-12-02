@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "history": "^4.7.2",
     "react": "^16.2.0",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
+    "react-stormpath": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
