@@ -20,6 +20,14 @@ module.exports = grunt => {
                 }
             }
         },
+        shell: {
+            mongo: {
+                command: 'mongod',
+                options: {
+                    async: true
+                }
+            }
+        },
         mochaTest: {
             test: {
                 options: {
@@ -40,9 +48,10 @@ module.exports = grunt => {
     });
     
     grunt.loadNpmTasks('grunt-nodemon');
+    grunt.loadNpmTasks('grunt-shell-spawn');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mocha-test');
     
-    grunt.registerTask('serve', ['copy', 'nodemon:express']);
+    grunt.registerTask('serve', ['copy', 'nodemon:express', 'shell:mongo']);
     grunt.registerTask('testServer', ['mochaTest']);
 };
